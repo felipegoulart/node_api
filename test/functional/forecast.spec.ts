@@ -3,9 +3,12 @@ import { describe, expect, it } from 'vitest'
 
 describe('Functional: Beach forecast functional test', () => {
   it('should return a forecast with just few times', async () => {
+    // testRequest is global function.
     const { body, status } = await testRequest.get('/forecast')
 
     expect(status).toBe(200)
+
+    // Use toEqual when compare non-primitives values to check the value only.
     expect(body).toEqual([{
       "time": "2020-04-26T00:00:00+00:00",
       "forecast": [{
