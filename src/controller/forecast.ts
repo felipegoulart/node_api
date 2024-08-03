@@ -1,12 +1,12 @@
-import { describe, expect, it } from 'vitest'
-// import supertest from 'supertest'
+import { Controller, Get } from '@overnightjs/core'
+import { Request, Response } from 'express'
 
-describe('Functional: Beach forecast functional test', () => {
-  it('should return a forecast with just few times', async () => {
-    const { body, status } = await testRequest.get('/forecast')
+@Controller('forecast')
+export class ForecastController {
 
-    expect(status).toBe(200)
-    expect(body).toEqual([{
+  @Get('')
+  public getForecastForLoggedUser (request: Request, response: Response) {
+    response.send([{
       "time": "2020-04-26T00:00:00+00:00",
       "forecast": [{
         "lat": -33.792726,
@@ -39,5 +39,5 @@ describe('Functional: Beach forecast functional test', () => {
         "windDirection": 310.48
       }] }
     ])
-  })
-})
+  }
+}

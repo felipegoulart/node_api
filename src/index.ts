@@ -1,1 +1,1 @@
-console.log('Teste')
+import './util/modules-alias'
