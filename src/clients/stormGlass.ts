@@ -1,5 +1,6 @@
 import { InternalError } from '@src/util/errors/internal-error'
 import { AxiosError, AxiosStatic } from 'axios'
+import config, { type IConfig } from 'config'
 
 export interface StormGlassPointSource {
   [key: string]: number
@@ -32,18 +33,20 @@ export interface ForecastPoint {
 }
 
 export class ClientRequestError extends InternalError {
-  constructor (message: string) {
+  constructor(message: string) {
     const internalMessage = 'Unexpected error when trying to comunicate to StormGlass'
     super(`${internalMessage}: ${message}`)
   }
 }
 
 export class StormGlassResponseError extends InternalError {
-  constructor (message: string) {
+  constructor(message: string) {
     const internalMessage = 'Unexpected error returned by the StormGlass service:'
     super(`${internalMessage} ${message}`)
   }
-} 
+}
+
+const stormGlassResourceConfig: IConfig = config.get('App.resources.StormGlass')
 
 export class StormGlass {
   readonly stormGlassAPIParams: string =
@@ -55,21 +58,20 @@ export class StormGlass {
   public async fetchPoints(lat: number, lng: number): Promise<ForecastPoint[]> {
     try {
       const response = await this.request.get<StormGlassForecastReponse>(
-        `https://api.stormglass.io/v2/weather/point?params=${this.stormGlassAPIParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
+        `${stormGlassResourceConfig.get('apiUrl')}/weather/point?params=${this.stormGlassAPIParams}&source=${this.stormGlassApiSource}&lat=${lat}&lng=${lng}`,
         {
           headers: {
             Authorization: 'fake-token',
           },
         }
       )
-  
+
       return this.normalizeResponse(response.data)
     } catch (error: unknown) {
-
       if ((error as AxiosError).response && (error as AxiosError).response?.status) {
         const requestError = error as AxiosError
         const messageError = `Error: ${JSON.stringify(requestError.response?.data)} Code: ${requestError.response?.status}`
-        
+
         throw new StormGlassResponseError(messageError)
       }
 
