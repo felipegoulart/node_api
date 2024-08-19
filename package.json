@@ -9,6 +9,9 @@
     "start:dev": "ts-node-dev src/index.ts",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "style:check": "prettier --check src/**/*.ts test/**/*.ts",
+    "style:fix": "prettier --write src/**/*.ts test/**/*.ts",
+    "test:unit": "vitest",
     "test:functional": "vitest --config ./test/vitest.config.ts ./test/functional/*.spec.ts --no-file-parallelism"
   },
   "keywords": [],
@@ -22,6 +25,7 @@
     "@types/supertest": "^6.0.2",
     "eslint": "^9.8.0",
     "globals": "^15.9.0",
+    "prettier": "3.3.3",
     "supertest": "^7.0.0",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
@@ -32,6 +36,8 @@
   },
   "dependencies": {
     "@overnightjs/core": "^1.7.6",
+    "@types/axios": "^0.14.0",
+    "axios": "^1.7.3",
     "express": "^4.19.2",
     "module-alias": "^2.2.3"
   }
