@@ -33,14 +33,14 @@ export interface ForecastPoint {
 }
 
 export class ClientRequestError extends InternalError {
-  constructor (message: string) {
+  constructor(message: string) {
     const internalMessage = 'Unexpected error when trying to comunicate to StormGlass'
     super(`${internalMessage}: ${message}`)
   }
 }
 
 export class StormGlassResponseError extends InternalError {
-  constructor (message: string) {
+  constructor(message: string) {
     const internalMessage = 'Unexpected error returned by the StormGlass service:'
     super(`${internalMessage} ${message}`)
   }
@@ -65,14 +65,13 @@ export class StormGlass {
           },
         }
       )
-  
+
       return this.normalizeResponse(response.data)
     } catch (error: unknown) {
-
       if ((error as AxiosError).response && (error as AxiosError).response?.status) {
         const requestError = error as AxiosError
         const messageError = `Error: ${JSON.stringify(requestError.response?.data)} Code: ${requestError.response?.status}`
-        
+
         throw new StormGlassResponseError(messageError)
       }
 
