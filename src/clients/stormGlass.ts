@@ -68,7 +68,7 @@ export class StormGlass {
 
       return this.normalizeResponse(response.data)
     } catch (error) {
-      console.log('HELLO MOTHER FUCKER', error instanceof Error)
+      
       if (error instanceof Error && HTTPUtil.Request.isRequestError(error)) {
         const requestError = HTTPUtil.Request.extractErrorData(error)
         const messageError = `Error: ${JSON.stringify(requestError.data)} Code: ${requestError.status}`
