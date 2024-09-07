@@ -1,5 +1,4 @@
 import { describe, expect, it } from 'vitest'
-// import supertest from 'supertest'
 
 describe('Functional: Beach forecast functional test', () => {
   it('should return a forecast with just few times', async () => {

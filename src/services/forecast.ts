@@ -1,31 +1,31 @@
-import { ForecastPoint, StormGlass } from "@src/clients/stormGlass"
+import { ForecastPoint, StormGlass } from '@src/clients/stormGlass'
 
 export enum BeachPosition {
   N = 'N',
   S = 'S',
   W = 'W',
-  E = 'E'
+  E = 'E',
 }
 
 export interface Beach {
-  name: string,
-  position: BeachPosition,
-  lat: number,
-  lng: number,
+  name: string
+  position: BeachPosition
+  lat: number
+  lng: number
   user: string
 }
 
 export interface BeachForecast extends Omit<Beach, 'user'>, ForecastPoint {}
 
 export interface TimeForecast {
-  time: string,
+  time: string
   forecast: BeachForecast[]
 }
 
 export class Forecast {
-  constructor(protected stormGlass = new StormGlass) {}
+  constructor(protected stormGlass = new StormGlass()) {}
 
-  public async processForecastForBeaches (beaches: Beach[]): Promise<TimeForecast[]> {
+  public async processForecastForBeaches(beaches: Beach[]): Promise<TimeForecast[]> {
     const pointsWithCorrectSource: BeachForecast[] = []
 
     for (const beach of beaches) {
@@ -40,7 +40,7 @@ export class Forecast {
           position,
           rating: 1, // TODO
         },
-        ...point
+        ...point,
       }))
 
       pointsWithCorrectSource.push(...enrichedBeachData)
@@ -49,7 +49,7 @@ export class Forecast {
     return this.mapForecastByTime(pointsWithCorrectSource)
   }
 
-  private mapForecastByTime (forecast: BeachForecast[]): TimeForecast[] {
+  private mapForecastByTime(forecast: BeachForecast[]): TimeForecast[] {
     const forecastByTime: TimeForecast[] = []
 
     for (const point of forecast) {
@@ -60,7 +60,7 @@ export class Forecast {
       } else {
         forecastByTime.push({
           time: point.time,
-          forecast: [point]
+          forecast: [point],
         })
       }
     }

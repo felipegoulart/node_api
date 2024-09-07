@@ -68,7 +68,6 @@ export class StormGlass {
 
       return this.normalizeResponse(response.data)
     } catch (error) {
-      
       if (error instanceof Error && HTTPUtil.Request.isRequestError(error)) {
         const requestError = HTTPUtil.Request.extractErrorData(error)
         const messageError = `Error: ${JSON.stringify(requestError.data)} Code: ${requestError.status}`
