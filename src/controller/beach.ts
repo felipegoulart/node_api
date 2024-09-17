@@ -14,7 +14,6 @@ export class BeachesController {
 
       response.status(201).send(result)
     } catch (error) {
-      console.log(error)
       if (error instanceof Error.ValidationError) {
         response.status(422).send({ error: error.message })
       } else {
